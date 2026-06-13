@@ -25,6 +25,10 @@ import os
 
 from dotenv import load_dotenv
 
+from src.education.constants import AGENT_DOMAIN_EDUCATION
+from src.education.prompts import build_education_system_prompt
+from src.education.student_state import EducationStateMiddleware
+from src.education.student_store import boot_status as _student_store_boot_status
 from src.intelligence_cleanup import wipe_orphan_threads
 from src.lead_store import boot_status as _lead_store_boot_status
 from src.notion_tools import load_notion_tools
@@ -67,6 +71,9 @@ def _format_integration_status() -> str:
 
 # Stub-key warnings for the active runtime live closer to the runtime selector.
 # The Gemini runtimes still warn here so the message is loud at boot.
+_AGENT_DOMAIN = os.getenv("AGENT_DOMAIN", AGENT_DOMAIN_EDUCATION)
+print(f"[runtime] AGENT_DOMAIN={_AGENT_DOMAIN}", flush=True)
+
 _AGENT_RUNTIME = os.getenv("AGENT_RUNTIME", "gemini-flash-deep")
 print(f"[runtime] AGENT_RUNTIME={_AGENT_RUNTIME}", flush=True)
 
@@ -77,17 +84,29 @@ if _AGENT_RUNTIME.startswith("gemini-") and (
     print(
         "\n  GEMINI_API_KEY is unset or a stub.\n"
         "   The agent will boot but chat will fail on the first turn.\n"
-        "   Get a key at https://aistudio.google.com → Get API key,\n"
-        "   then set GEMINI_API_KEY in v2/.env and v2/agent/.env.\n",
+        "   Get a key at https://aistudio.google.com -> Get API key,\n"
+        "   then set GEMINI_API_KEY in .env and apps/agent/.env.\n",
         flush=True,
     )
 
 
-backend_tools = load_notion_tools()
+backend_tools: list = []
+state_middleware = EducationStateMiddleware()
 
-
-_integration_status = _format_integration_status()
-SYSTEM_PROMPT = build_system_prompt(_integration_status)
+if _AGENT_DOMAIN == AGENT_DOMAIN_EDUCATION:
+    try:
+        integration_line = _student_store_boot_status()
+    except Exception as error:  # noqa: BLE001
+        print(f"[student_store] FAILED: {error}", flush=True)
+        integration_line = f"error: student_store boot_status raised: {error}"
+    else:
+        print(f"[student_store] {integration_line}", flush=True)
+    SYSTEM_PROMPT = build_education_system_prompt(integration_line)
+else:
+    backend_tools = load_notion_tools()
+    integration_line = _format_integration_status()
+    SYSTEM_PROMPT = build_system_prompt(integration_line)
+    state_middleware = None
 
 
 _use_noop = (
@@ -106,6 +125,7 @@ graph = build_graph(
     "noop" if _use_noop else _AGENT_RUNTIME,
     tools=backend_tools,
     system_prompt=SYSTEM_PROMPT,
+    state_middleware=state_middleware,
 )
 
 

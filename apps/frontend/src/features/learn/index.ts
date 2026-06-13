@@ -1,0 +1,1 @@
+export { EduMateApp } from "./EduMateApp";

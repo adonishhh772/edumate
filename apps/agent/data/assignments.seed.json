@@ -1,0 +1,62 @@
+[
+  {
+    "id": "assign-001",
+    "student_id": "student-001",
+    "title": "Quadratic Equations Practice",
+    "subject": "mathematics",
+    "status": "in_progress",
+    "due_at": "2026-06-20T23:59:00Z",
+    "progress_percent": 45,
+    "topic": "Factoring and completing the square"
+  },
+  {
+    "id": "assign-002",
+    "student_id": "student-001",
+    "title": "Python Functions Lab",
+    "subject": "computer_science",
+    "status": "not_started",
+    "due_at": "2026-06-22T18:00:00Z",
+    "progress_percent": 0,
+    "topic": "Writing reusable functions with tests"
+  },
+  {
+    "id": "assign-003",
+    "student_id": "student-001",
+    "title": "Cell Structure Quiz",
+    "subject": "science",
+    "status": "submitted",
+    "due_at": "2026-06-15T12:00:00Z",
+    "progress_percent": 100,
+    "topic": "Organelles and their functions"
+  },
+  {
+    "id": "assign-004",
+    "student_id": "student-002",
+    "title": "Persuasive Essay Draft",
+    "subject": "english",
+    "status": "in_progress",
+    "due_at": "2026-06-18T23:59:00Z",
+    "progress_percent": 70,
+    "topic": "Climate policy argument structure"
+  },
+  {
+    "id": "assign-005",
+    "student_id": "student-002",
+    "title": "Industrial Revolution Timeline",
+    "subject": "history",
+    "status": "graded",
+    "due_at": "2026-06-10T23:59:00Z",
+    "progress_percent": 100,
+    "topic": "Causes and social impact"
+  },
+  {
+    "id": "assign-006",
+    "student_id": "student-003",
+    "title": "Study Plan: Science Unit 3",
+    "subject": "science",
+    "status": "not_started",
+    "due_at": "2026-06-25T23:59:00Z",
+    "progress_percent": 0,
+    "topic": "Chemical reactions and balancing equations"
+  }
+]

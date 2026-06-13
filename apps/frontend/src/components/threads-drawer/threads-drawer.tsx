@@ -6,14 +6,11 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
-  Code2,
   ExternalLink,
   Filter,
-  Info,
   Moon,
   Plus,
   Search,
-  Sparkles,
   SquarePen,
   Sun,
   Trash2,
@@ -50,33 +47,9 @@ const DOC_LINKS: Array<{
   external?: boolean;
 }> = [
   {
-    label: "About this Kit",
-    href: "/about",
-    icon: Info,
-    external: false,
-  },
-  {
-    label: "Tool surface",
-    href: "/showcase",
-    icon: Sparkles,
-    external: false,
-  },
-  {
-    label: "Documentation",
+    label: "CopilotKit docs",
     href: "https://docs.copilotkit.ai/",
     icon: BookOpen,
-    external: true,
-  },
-  {
-    label: "Intelligence Platform",
-    href: "https://docs.copilotkit.ai/learn/intelligence-platform",
-    icon: Sparkles,
-    external: true,
-  },
-  {
-    label: "Coding Agents",
-    href: "https://docs.copilotkit.ai/coding-agents",
-    icon: Code2,
     external: true,
   },
 ];
