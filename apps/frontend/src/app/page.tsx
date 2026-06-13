@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { EduMateApp } from "@/features/learn";
 
 export default function HomePage() {
-  redirect("/leads");
+  return <EduMateApp />;
 }

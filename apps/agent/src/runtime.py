@@ -22,6 +22,8 @@ from langgraph.graph.state import CompiledStateGraph
 
 from copilotkit import CopilotKitMiddleware
 
+from langchain.agents.middleware.types import AgentMiddleware
+
 from .lead_state import LeadStateMiddleware
 from .timing import TimingMiddleware
 
@@ -56,6 +58,7 @@ def build_graph(
     *,
     tools: list,
     system_prompt: str,
+    state_middleware: AgentMiddleware | None = None,
 ) -> CompiledStateGraph:
     """Compile a graph for the named runtime.
 
@@ -79,9 +82,9 @@ def build_graph(
         runtime = "gemini-flash-deep"
 
     timing = TimingMiddleware()
-    lead_state = LeadStateMiddleware()
+    canvas_state = state_middleware or LeadStateMiddleware()
     copilotkit = CopilotKitMiddleware()
-    middleware = [timing, lead_state, copilotkit]
+    middleware = [timing, canvas_state, copilotkit]
 
     if runtime == "noop":
         return _build_noop(NOOP_FALLBACK_MESSAGE)

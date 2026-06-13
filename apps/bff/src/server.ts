@@ -15,11 +15,10 @@ const intelligence = new CopilotKitIntelligence({
 
 const agent = new LangGraphAgent({
   deploymentUrl:
-    process.env.LANGGRAPH_DEPLOYMENT_URL ?? "http://localhost:8123",
+    process.env.LANGGRAPH_DEPLOYMENT_URL ??
+    process.env.LANGGRAPH_AGENT_URL ??
+    "http://localhost:8133",
   graphId: "default",
-  langsmithApiKey: process.env.LANGSMITH_API_KEY ?? "",
-  // 60 (vs LangGraph default 25) leaves headroom for the deepagents planner
-  // loop on multi-step turns like "draft email + queue".
   assistantConfig: {
     recursion_limit: Number(process.env.LANGGRAPH_RECURSION_LIMIT ?? 60),
   },

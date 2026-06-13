@@ -22,9 +22,9 @@ const splineMono = Spline_Sans_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AG-UI Canvas | CopilotKit Hackathon Starter",
+  title: "EduMate | Student Learning Companion",
   description:
-    "Hackathon starter kit: CopilotKit canvas + threads drawer + Deep Agents + Gemini + Notion MCP",
+    "Student-facing agentic education app powered by CopilotKit, LangGraph, and Gemini.",
 };
 
 export default function RootLayout({

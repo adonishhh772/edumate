@@ -1,0 +1,38 @@
+[
+  {
+    "id": "student-001",
+    "name": "Amina Hassan",
+    "grade_level": "Year 10",
+    "email": "amina.hassan@school.edu",
+    "subjects": ["mathematics", "science", "computer_science"],
+    "mastery_level": "developing",
+    "streak_days": 5,
+    "focus_subject": "mathematics",
+    "next_assignment_id": "assign-001",
+    "message": "Struggling with quadratic equations but enjoys coding projects."
+  },
+  {
+    "id": "student-002",
+    "name": "James Okafor",
+    "grade_level": "Year 11",
+    "email": "james.okafor@school.edu",
+    "subjects": ["english", "history", "science"],
+    "mastery_level": "proficient",
+    "streak_days": 12,
+    "focus_subject": "english",
+    "next_assignment_id": "assign-004",
+    "message": "Preparing for essay exams and wants feedback on thesis structure."
+  },
+  {
+    "id": "student-003",
+    "name": "Sofia Martinez",
+    "grade_level": "Year 9",
+    "email": "sofia.martinez@school.edu",
+    "subjects": ["mathematics", "science", "history"],
+    "mastery_level": "beginner",
+    "streak_days": 2,
+    "focus_subject": "science",
+    "next_assignment_id": "assign-006",
+    "message": "New to structured study plans; needs help breaking tasks into steps."
+  }
+]
