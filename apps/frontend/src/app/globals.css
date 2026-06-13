@@ -1,0 +1,227 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --background: #EDEDF5;
+  --foreground: #010507;
+  --card: #FFFFFF;
+  --card-foreground: #010507;
+  --primary: #010507;
+  --primary-foreground: #FFFFFF;
+  --secondary: #BEC2FF;
+  --secondary-foreground: #010507;
+  --muted: #F7F7F9;
+  --muted-foreground: #57575B;
+  --accent: #BEC2FF;
+  --accent-foreground: #010507;
+  --destructive: #FA5F67;
+  --destructive-foreground: #FFFFFF;
+  --border: #DBDBE5;
+  --input: #FFFFFF;
+  --ring: rgba(190, 194, 255, 0.6);
+  --chart-1: #BEC2FF;
+  --chart-2: #85ECCE;
+  --chart-3: #3D92E8;
+  --chart-4: #FFAC4D;
+  --chart-5: #FFF388;
+  --radius: 0.75rem;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #010507;
+  --sidebar-primary: #010507;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #BEC2FF;
+  --sidebar-accent-foreground: #010507;
+  --sidebar-border: #DBDBE5;
+  --sidebar-ring: rgba(190, 194, 255, 0.6);
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta);
+  --font-mono: var(--font-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-jakarta), system-ui, sans-serif;
+  }
+  code,
+  kbd,
+  pre,
+  samp,
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+}
+
+body,
+html {
+  height: 100%;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+/*
+  ─────────────────────────────────────────────────────────────────────
+  CopilotKit v2 sidebar polish
+  ─────────────────────────────────────────────────────────────────────
+  v2 ships its own message bubble styling via @copilotkit/react-core/v2
+  styles. Don't override .copilotKitUserMessage / .copilotKitAssistantMessage
+  here — v1's full-width filled-box style turns v2's right-aligned fit-content
+  bubble into a wide gray rectangle (the v1 selector still matches but the
+  v2 DOM/layout is different).
+
+  We DO add a small bottom gap to the sidebar content so the input pill
+  doesn't sit flush against the viewport edge. v2's CopilotSidebarView only
+  applies env(safe-area-inset-bottom) which is 0 on desktop.
+*/
+[data-copilot-sidebar="true"] [data-sidebar-chat] {
+  padding-bottom: 1rem;
+}
+
+/*
+  ─────────────────────────────────────────────────────────────────────
+  Threads-drawer module CSS hooks
+  ─────────────────────────────────────────────────────────────────────
+  The threads-drawer ships its own CSS module (threads-drawer.module.css)
+  and consumes the global tokens defined above (--background, --foreground,
+  --sidebar*, --border, --accent, --radius). We reserve room here for any
+  layout-level globals the drawer needs alongside the canvas. The drawer
+  module file lives at src/components/threads-drawer/threads-drawer.module.css
+  and is owned by another agent — do not duplicate its rules here.
+*/
+
+/*
+  ─────────────────────────────────────────────────────────────────────
+  Lead-card "agent just did this" pulse
+  ─────────────────────────────────────────────────────────────────────
+  Driven by data-pulse="true" on a LeadCard root, set by usePulse() when
+  a lead newly enters agent.state.highlightedLeadIds. Lasts ~2s, then the
+  attribute flips off and the persistent ring-amber-400 ring (set when
+  `highlighted` is true) takes over. Pulse signal ≠ selection signal.
+*/
+@keyframes lead-card-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.65);
+  }
+  60% {
+    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
+[data-pulse="true"] {
+  animation: lead-card-pulse 2s ease-out 1;
+}
+
+/*
+  ─────────────────────────────────────────────────────────────────────
+  Lead-card sync indicators (phase 04 — write-back to Notion)
+  ─────────────────────────────────────────────────────────────────────
+  Driven from app/page.tsx via two Sets (syncingIds / justSyncedIds). The
+  page passes them down so any view (Pipeline, Grid, List) can render the
+  right state on the right card without each view tracking its own.
+
+  - data-syncing="true": a write is in flight. We render a small spinner
+    in the card's top-right corner via a ::after pseudo-element so we
+    don't have to thread a React component through every card.
+  - data-just-synced="true": a write just landed. Flash an emerald ring
+    for 800ms, then the page clears the flag and the card returns to
+    normal styling.
+
+  Note: ::after positioning relies on .relative on the card root, which
+  LeadCard already sets via its `motion.button` class.
+*/
+
+@keyframes lead-card-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+[data-syncing="true"]::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  border: 2px solid rgba(99, 102, 241, 0.25);
+  border-top-color: rgba(99, 102, 241, 0.95);
+  animation: lead-card-spin 0.8s linear infinite;
+  z-index: 5;
+  pointer-events: none;
+}
+
+@keyframes lead-card-just-synced {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+  20% {
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+[data-just-synced="true"] {
+  animation: lead-card-just-synced 800ms ease-out 1;
+}
+
